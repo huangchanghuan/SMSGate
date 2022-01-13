@@ -1,8 +1,6 @@
-# 技术问题请加QQ群
-![qq 20180420170449](https://user-images.githubusercontent.com/7598107/39042453-6fcfaac0-44bd-11e8-94bf-101c8dad8400.png)
+# 技术说明
 
-群名称：cmppGate短信
-<br/>群   号：770738500
+
 
 # How To Use
 

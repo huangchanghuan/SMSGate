@@ -94,6 +94,7 @@ public class TestCMPPDBEndPoint {
 		
 		public EndpointEntity getChild(String userName)
 		{
+
 			CMPPServerChildEndpointEntity child = new CMPPServerChildEndpointEntity();
 			child.setId("child");
 			child.setChartset(Charset.forName("utf-8"));
@@ -108,8 +109,8 @@ public class TestCMPPDBEndPoint {
 			child.setRetryWaitTimeSec((short)30);
 			child.setMaxRetryCnt((short)3);
 //			child.setReSendFailMsg(true);
-//			child.setWriteLimit(200);
-//			child.setReadLimit(200);
+			child.setWriteLimit(200);
+			child.setReadLimit(200);
 			List<BusinessHandlerInterface> serverhandlers = new ArrayList<BusinessHandlerInterface>();
 			serverhandlers.add(new CMPPSessionConnectedHandler(100000));
 			child.setBusinessHandlerSet(serverhandlers);

@@ -1,14 +1,10 @@
 package com.zx.sms.connect.manager.cmpp;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zx.sms.codec.cmpp.msg.*;
+import io.netty.util.AttributeKey;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
-import com.zx.sms.codec.cmpp.msg.CmppDeliverRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppDeliverResponseMessage;
-import com.zx.sms.codec.cmpp.msg.CmppQueryRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppQueryResponseMessage;
-import com.zx.sms.codec.cmpp.msg.CmppReportRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppSubmitRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppSubmitResponseMessage;
 import com.zx.sms.common.util.CachedMillisecondClock;
 import com.zx.sms.handler.api.AbstractBusinessHandler;
 
@@ -59,6 +55,31 @@ public class CMPPResponseSenderHandler extends AbstractBusinessHandler {
 			CmppQueryRequestMessage e = (CmppQueryRequestMessage) msg;
 			CmppQueryResponseMessage res = new CmppQueryResponseMessage(e.getHeader().getSequenceId());
 			ctx.channel().writeAndFlush(res);
+		}else if (msg instanceof CmppAllCodeRequestMessage){
+    		//打印用户标识
+
+			AttributeKey<String> key = AttributeKey.valueOf("user");
+			if(ctx.channel().hasAttr(key) || ctx.channel().attr(key).get() != null)
+				System.out.println(ctx.channel().attr(key).get());
+
+			CmppAllCodeRequestMessage e = (CmppAllCodeRequestMessage) msg;
+			System.out.println("服务端收到请求："+e.getBody());
+//			CmppSubmitResponseMessage resp = new CmppSubmitResponseMessage(e.getHeader().getSequenceId());
+//			resp.setResult(0);
+//			ctx.channel().writeAndFlush(resp);
+
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("code", "100");
+			jsonObject.put("name", "服务端响应");
+			String body = jsonObject.toJSONString();
+			CmppAllCodeResponseMessage cmppAllCodeResponseMessage = new CmppAllCodeResponseMessage(e.getHeader().getSequenceId());
+			cmppAllCodeResponseMessage.setJsonBodyLength(body.length());
+			cmppAllCodeResponseMessage.setBody(body);
+			ctx.channel().writeAndFlush(cmppAllCodeResponseMessage);
+
+		}else if (msg instanceof CmppAllCodeResponseMessage){
+			CmppAllCodeResponseMessage e = (CmppAllCodeResponseMessage) msg;
+			System.out.println("服务端收到响应："+e.getBody());
 		}
     	
     	ctx.fireChannelRead(msg);

@@ -54,7 +54,9 @@ public abstract class MessageReceiveHandler extends AbstractBusinessHandler {
 			}, new ExitUnlimitCirclePolicy() {
 				@Override
 				public boolean notOver(Future future) {
-					return getEndpointEntity().getSingletonConnector().getConnectionNum()>0;
+					logger.info("当前连接数:{}",getEndpointEntity().getSingletonConnector().getConnectionNum());
+					return true;
+//					return getEndpointEntity().getSingletonConnector().getConnectionNum()>0;
 				}
 			}, rate * 1000);
 			inited = true;

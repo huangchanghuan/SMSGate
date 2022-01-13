@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.netty.util.AttributeKey;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,6 +171,10 @@ public abstract class AbstractSessionLoginManager extends ChannelDuplexHandler {
 				ctx.pipeline().replace(idlehandler, GlobalConstance.IdleCheckerHandlerName,
 						new IdleStateHandler(0, 0, childentity.getIdleTimeSec(), TimeUnit.SECONDS));
 				state = SessionState.Connect;
+				//设置用户标识
+
+				AttributeKey<String> key = AttributeKey.valueOf("user");
+				ctx.channel().attr(key).set(entity.getId());
 
 				// channelHandler已绑定完成，给客户端发resp.
 				doLoginSuccess(ctx, childentity, message);

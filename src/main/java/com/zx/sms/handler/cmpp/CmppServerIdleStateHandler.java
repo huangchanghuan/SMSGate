@@ -14,7 +14,7 @@ import com.zx.sms.common.GlobalConstance;
 import com.zx.sms.session.cmpp.SessionState;
 
 /**
- * 
+ * 服务端检测到无读写,则服务端请求客户端,发送心跳请求
  * @author huzorro(huzorro@gmail.com)
  *
  */
@@ -23,7 +23,7 @@ public class CmppServerIdleStateHandler extends ChannelDuplexHandler {
 	private static final Logger logger = LoggerFactory.getLogger(CmppServerIdleStateHandler.class);
 	@Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-		
+
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.ALL_IDLE) {

@@ -35,6 +35,11 @@ public class CMPPClientEndpointConnector extends AbstractClientEndpointConnector
 		
 	}
 
+	/**
+	 * 建链成功后绑定业务handler
+	 * @param pipe
+	 * @param cmppentity
+	 */
 	@Override
 	protected void doBindHandler(ChannelPipeline pipe, EndpointEntity cmppentity) {
 		CMPPEndpointEntity entity = (CMPPEndpointEntity)cmppentity;
@@ -53,6 +58,10 @@ public class CMPPClientEndpointConnector extends AbstractClientEndpointConnector
 		
 	}
 
+	/**
+	 * 初始化
+	 * @param pipeline
+	 */
 	@Override
 	protected void doinitPipeLine(ChannelPipeline pipeline) {
 		CMPPCodecChannelInitializer codec = null;

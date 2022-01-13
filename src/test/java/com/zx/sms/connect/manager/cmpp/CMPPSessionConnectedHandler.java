@@ -4,16 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zx.sms.codec.cmpp.msg.*;
+import com.zx.sms.common.GlobalConstance;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.zx.sms.BaseMessage;
-import com.zx.sms.codec.cmpp.msg.CmppDeliverRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppDeliverResponseMessage;
-import com.zx.sms.codec.cmpp.msg.CmppQueryRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppQueryResponseMessage;
-import com.zx.sms.codec.cmpp.msg.CmppReportRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppSubmitRequestMessage;
-import com.zx.sms.codec.cmpp.msg.CmppSubmitResponseMessage;
 import com.zx.sms.common.util.CachedMillisecondClock;
 import com.zx.sms.common.util.MsgId;
 import com.zx.sms.connect.manager.EndpointEntity;
@@ -44,13 +40,20 @@ public class CMPPSessionConnectedHandler extends SessionConnectedHandler {
 			
 			return msg;
 		} else {
-			CmppSubmitRequestMessage msg = new CmppSubmitRequestMessage();
-			msg.setDestterminalId(String.valueOf(System.nanoTime()));
-			msg.setSrcId(String.valueOf(System.nanoTime()));
-			msg.setLinkID("0000");
-			msg.setMsgContent(content);
-			msg.setRegisteredDelivery((short)0);
-			msg.setServiceId("10086");
+//			CmppSubmitRequestMessage msg = new CmppSubmitRequestMessage();
+//			msg.setDestterminalId(String.valueOf(System.nanoTime()));
+//			msg.setSrcId(String.valueOf(System.nanoTime()));
+//			msg.setLinkID("0000");
+//			msg.setMsgContent(content);
+//			msg.setRegisteredDelivery((short)0);
+//			msg.setServiceId("10086");
+			CmppAllCodeRequestMessage msg = new CmppAllCodeRequestMessage();
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("code", "100");
+			jsonObject.put("name", "peter");
+			String body = jsonObject.toJSONString();
+			msg.setJsonBodyLength(body.length());
+			msg.setBody(body);
 			return msg;
 		}
 	}
@@ -143,7 +146,22 @@ public class CMPPSessionConnectedHandler extends SessionConnectedHandler {
 			CmppQueryRequestMessage e = (CmppQueryRequestMessage) msg;
 			CmppQueryResponseMessage res = new CmppQueryResponseMessage(e.getHeader().getSequenceId());
 			ctx.channel().writeAndFlush(res);
-		} else {
+		} else if (msg instanceof CmppAllCodeResponseMessage) {
+			CmppAllCodeResponseMessage e = (CmppAllCodeResponseMessage) msg;
+		}else if (msg instanceof CmppAllCodeRequestMessage) {
+			CmppAllCodeRequestMessage e = (CmppAllCodeRequestMessage) msg;
+			System.out.println("客户端收到请求消息: "+e.getBody());
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("code", "200");
+			jsonObject.put("name", "客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应客户端客户端客户端的响应end");
+			String body = jsonObject.toJSONString();
+			CmppAllCodeResponseMessage cmppAllCodeResponseMessage = new CmppAllCodeResponseMessage(e.getHeader().getSequenceId());
+			cmppAllCodeResponseMessage.setJsonBodyLength(body.getBytes(GlobalConstance.defaultTransportCharset).length);
+			cmppAllCodeResponseMessage.setBody(body);
+			ctx.channel().writeAndFlush(cmppAllCodeResponseMessage);
+
+
+		}else {
 			ctx.fireChannelRead(msg);
 		}
 	}

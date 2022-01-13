@@ -82,10 +82,11 @@ public abstract class SessionConnectedHandler extends AbstractBusinessHandler {
 									future.addListener(new GenericFutureListener<Future<BaseMessage>>() {
 										@Override
 										public void operationComplete(Future<BaseMessage> future) throws Exception {
+//											logger.info("追加打印 response:{}",future.get());
 											if (future.isSuccess()) {
-//												 logger.info("response:{}",future.get());
+												 logger.info("response:{}",future.get());
 											} else {
-//												 logger.error("response:{}",future.cause());
+												 logger.error("response:{}",future.cause());
 											}
 										}
 									});
